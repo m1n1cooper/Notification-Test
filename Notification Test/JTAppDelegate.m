@@ -7,15 +7,31 @@
 //
 
 #import "JTAppDelegate.h"
+#import "JTViewController.h"
 
 @implementation JTAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
-    // Override point for customization after application launch.
-    return YES;
+// Handle local notification
+UILocalNotification *localNotification = launchOptions[UIApplicationLaunchOptionsLocalNotificationKey];
+if (localNotification) {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Local Notification Received While App Terminated"
+                                                    message:[NSString stringWithFormat:@"This is a test"]
+                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
 }
-							
+
+return YES;
+}
+
+- (void)application:(UIApplication *)application didReceiveLocalNotification:(UILocalNotification *)notification {
+    UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"Local Notification Received While App Running"
+                                                    message:[NSString stringWithFormat:@"This is a test"]
+                                                   delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
+    [alert show];
+}
+
 - (void)applicationWillResignActive:(UIApplication *)application
 {
     // Sent when the application is about to move from active to inactive state. This can occur for certain types of temporary interruptions (such as an incoming phone call or SMS message) or when the user quits the application and it begins the transition to the background state.

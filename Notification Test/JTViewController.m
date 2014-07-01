@@ -13,6 +13,9 @@
 @end
 
 @implementation JTViewController
+{
+    NSDate *date;
+}
 
 - (void)viewDidLoad
 {
@@ -26,4 +29,16 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (IBAction)setNotification:(UIButton *)sender {
+    UILocalNotification *localNotification = [[UILocalNotification alloc] init];
+    localNotification.fireDate = date;
+    localNotification.alertBody = @"Test";
+    localNotification.alertAction = @"View";
+    localNotification.soundName = UILocalNotificationDefaultSoundName;
+    [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+}
+- (IBAction)datePicker:(UIDatePicker *)sender {
+    date = sender.date;
+    NSLog(@"date is %@", date);
+}
 @end
