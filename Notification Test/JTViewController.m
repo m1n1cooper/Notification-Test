@@ -15,12 +15,14 @@
 @implementation JTViewController
 {
     NSDate *date;
+    NSDate *tempDate;
 }
 
 - (void)viewDidLoad
 {
     [super viewDidLoad];
 	// Do any additional setup after loading the view, typically from a nib.
+    
 }
 
 - (void)didReceiveMemoryWarning
@@ -36,9 +38,19 @@
     localNotification.alertAction = @"View";
     localNotification.soundName = UILocalNotificationDefaultSoundName;
     [[UIApplication sharedApplication] scheduleLocalNotification:localNotification];
+    NSLog(@"fireDate is %@", localNotification.fireDate);
 }
 - (IBAction)datePicker:(UIDatePicker *)sender {
-    date = sender.date;
-    NSLog(@"date is %@", date);
+    tempDate = sender.date;
+    NSCalendar *calendar = [NSCalendar currentCalendar];
+    NSDateComponents *dateComponents = [calendar components:( NSYearCalendarUnit | NSMonthCalendarUnit |  NSDayCalendarUnit ) fromDate:tempDate];
+    NSDateComponents *timeComponents = [calendar components:( NSHourCalendarUnit | NSMinuteCalendarUnit | NSSecondCalendarUnit ) fromDate:tempDate];
+    
+    [dateComponents setHour:[timeComponents hour]];
+    [dateComponents setMinute:[timeComponents minute]];
+    [dateComponents setSecond:0.0];
+    
+    date = [calendar dateFromComponents:dateComponents];
+    NSLog(@"tempDate is %@ and date is %@", tempDate, date);
 }
 @end
